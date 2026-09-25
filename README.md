@@ -8,6 +8,7 @@
   - João Victor Cipriano Bezerra — RGM: 48071277
   - Luis Angel — RGM: 50132229
   - Nicolas de Oliveira Batista Barsoti — RGM: 48030058
+  - Paulo Henrique Oliveira dos Santos - RGM: 47848430
 
 ---
 
