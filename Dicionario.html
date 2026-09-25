@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicionário de Dados — MAXfood</title>
+    <style>
+        /* ====== RESET E BASE ====== */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f7f9fc;
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 50px 60px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        /* ====== CABEÇALHO ====== */
+        header {
+            border-bottom: 3px solid #4a90a4;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        header p.subtitle {
+            color: #7f8c8d;
+            font-size: 15px;
+            margin-top: 6px;
+        }
+
+        /* ====== TÍTULOS DE SEÇÃO ====== */
+        h2 {
+            font-size: 20px;
+            color: #3d6d7e;
+            margin-top: 45px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e6ed;
+            font-weight: 600;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 15px;
+            color: #5a6c7d;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ====== TABELAS ====== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 14px;
+            background-color: #ffffff;
+        }
+
+        thead th {
+            background-color: #eaf2f5;
+            color: #2c3e50;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 14px;
+            border-bottom: 2px solid #c8d8e0;
+            font-size: 13.5px;
+        }
+
+        tbody td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #eef2f5;
+            vertical-align: top;
+            color: #34495e;
+        }
+
+        tbody tr:hover {
+            background-color: #f9fbfc;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 1px solid #d8e0e6;
+        }
+
+        /* Coluna de campo em destaque leve */
+        tbody td:first-child {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        /* ====== BLOCO DE NOTAÇÃO FORMAL ====== */
+        pre {
+            background-color: #f4f8fa;
+            border-left: 4px solid #4a90a4;
+            padding: 14px 18px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            color: #2c3e50;
+            overflow-x: auto;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        /* ====== CAIXA DE PREFIXOS ====== */
+        .prefixos-table thead th {
+            background-color: #f0f5f7;
+        }
+
+        .prefixos-table tbody td {
+            text-align: left;
+        }
+
+        .prefixos-table tbody td:first-child {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-weight: 600;
+            color: #3d6d7e;
+        }
+
+        /* ====== RODAPÉ ====== */
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e6ed;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 13px;
+        }
+
+        /* ====== RESPONSIVO ====== */
+        @media (max-width: 700px) {
+            body { padding: 15px; }
+            .container { padding: 25px 20px; }
+            header h1 { font-size: 22px; }
+            h2 { font-size: 17px; }
+            table { font-size: 12.5px; }
+            thead th, tbody td { padding: 8px 10px; }
+        }
+
+        /* ====== IMPRESSÃO ====== */
+        @media print {
+            body { background-color: #fff; padding: 0; }
+            .container { box-shadow: none; padding: 0; }
+            h2 { page-break-after: avoid; }
+            table, pre { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Dicionário de Dados — MAXfood</h1>
+        <p class="subtitle">Documento técnico de referência · Modelagem de Banco de Dados · 2026.2</p>
+    </header>
+
+    <!-- ========== PREFIXOS ========== -->
+    <h2>Padronização adotada (prefixos)</h2>
+    <table class="prefixos-table">
+        <thead>
+            <tr>
+                <th>Prefixo</th>
+                <th>Significado</th>
+                <th>Exemplo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_ / CO_</td><td>Código / chave</td><td>CD_FORNECEDOR</td></tr>
+            <tr><td>NM_</td><td>Nome descritivo</td><td>NM_FORNECEDOR</td></tr>
+            <tr><td>DT_</td><td>Data</td><td>DT_MOVIMENTACAO</td></tr>
+            <tr><td>QT_</td><td>Quantidade</td><td>QT_ESTOQUE</td></tr>
+            <tr><td>TP_</td><td>Tipo / categoria</td><td>TP_MOVIMENTACAO</td></tr>
+            <tr><td>IN_</td><td>Indicador booleano</td><td>IN_ATIVO</td></tr>
+            <tr><td>VL_</td><td>Valor monetário</td><td>VL_VENDA</td></tr>
+            <tr><td>DS_</td><td>Descrição / texto livre</td><td>DS_OBSERVACAO</td></tr>
+        </tbody>
+    </table>
+
+    <!-- ========== 1. FUNCIONARIO ========== -->
+    <h2>1. Entidade: FUNCIONARIO</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Campo</th>
+                <th>Tipo de Dado</th>
+                <th>Descrição</th>
+                <th>Restrição / Chave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_FUNCIONARIO</td><td>integer</td><td>Identificador único do funcionário</td><td>Chave Primária (PK)</td></tr>
+            <tr><td>NM_FUNCIONARIO</td><td>varchar(60)</td><td>Nome completo do funcionário</td><td>Not Null (Obrigatório)</td></tr>
+            <tr><td>TP_CARGO</td><td>varchar(20)</td><td>Cargo/função (atendimento ou cozinha)</td><td>Domínio: {Atendimento, Cozinha}</td></tr>
+            <tr><td>NR_TELEFONE</td><td>varchar(15)</td><td>Telefone de contato</td><td>Opcional</td></tr>
+            <tr><td>NM_EMAIL</td><td>varchar(80)</td><td>E-mail de contato</td><td>Opcional</td></tr>
+            <tr><td>IN_ATIVO</td><td>boolean</td><td>Indica se o funcionário está ativo</td><td>Domínio: {true, false}</td></tr>
+        </tbody>
+    </table>
+    <h3>Notação formal</h3>
+    <pre>FUNCIONARIO = @CD_FUNCIONARIO + NM_FUNCIONARIO + TP_CARGO + (NR_TELEFONE) + (NM_EMAIL) + IN_ATIVO</pre>
+
+    <!-- ========== 2. FORNECEDOR ========== -->
+    <h2>2. Entidade: FORNECEDOR</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Campo</th>
+                <th>Tipo de Dado</th>
+                <th>Descrição</th>
+                <th>Restrição / Chave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_FORNECEDOR</td><td>integer</td><td>Identificador único do fornecedor</td><td>Chave Primária (PK)</td></tr>
+            <tr><td>NM_FORNECEDOR</td><td>varchar(80)</td><td>Nome ou razão social</td><td>Not Null (Obrigatório)</td></tr>
+            <tr><td>NR_CNPJ</td><td>varchar(18)</td><td>CNPJ do fornecedor</td><td>Único quando informado</td></tr>
+            <tr><td>NR_TELEFONE</td><td>varchar(15)</td><td>Telefone de contato</td><td>Not Null (Obrigatório)</td></tr>
+            <tr><td>NM_EMAIL</td><td>varchar(80)</td><td>E-mail de contato</td><td>Opcional</td></tr>
+            <tr><td>DS_ENDERECO</td><td>varchar(120)</td><td>Endereço do fornecedor</td><td>Opcional</td></tr>
+            <tr><td>NM_CONTATO</td><td>varchar(60)</td><td>Pessoa responsável na empresa</td><td>Opcional</td></tr>
+            <tr><td>IN_ATIVO</td><td>boolean</td><td>Indica se o fornecedor está ativo</td><td>Domínio: {true, false}</td></tr>
+        </tbody>
+    </table>
+    <h3>Notação formal</h3>
+    <pre>FORNECEDOR = @CD_FORNECEDOR + NM_FORNECEDOR + (NR_CNPJ) + NR_TELEFONE + (NM_EMAIL) + (DS_ENDERECO) + (NM_CONTATO) + IN_ATIVO</pre>
+
+    <!-- ========== 3. PRODUTO ========== -->
+    <h2>3. Entidade: PRODUTO</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Campo</th>
+                <th>Tipo de Dado</th>
+                <th>Descrição</th>
+                <th>Restrição / Chave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_PRODUTO</td><td>integer</td><td>Identificador único do produto</td><td>Chave Primária (PK)</td></tr>
+            <tr><td>NM_PRODUTO</td><td>varchar(60)</td><td>Nome do produto (ex: X-Burger)</td><td>Not Null (Obrigatório)</td></tr>
+            <tr><td>DS_PRODUTO</td><td>varchar(120)</td><td>Descrição do produto</td><td>Opcional</td></tr>
+            <tr><td>TP_CATEGORIA</td><td>varchar(30)</td><td>Categoria (Lanches, Refeições, Bebidas, etc.)</td><td>Not Null (Obrigatório)</td></tr>
+            <tr><td>VL_VENDA</td><td>numeric(7,2)</td><td>Preço de venda atual</td><td>Domínio: &gt;= 0</td></tr>
+            <tr><td>VL_COMBO</td><td>numeric(7,2)</td><td>Preço quando vendido como combo</td><td>Opcional, &gt;= 0</td></tr>
+            <tr><td>TP_UNIDADE</td><td>varchar(10)</td><td>Unidade de medida (un, porção, prato)</td><td>Not Null (Obrigatório)</td></tr>
+            <tr><td>TP_ESTOQUE</td><td>varchar(10)</td><td>Tipo de estoque (Interno ou Amostra)</td><td>Domínio: {Interno, Amostra}</td></tr>
+            <tr><td>QT_ESTOQUE</td><td>integer</td><td>Quantidade disponível em estoque</td><td>Domínio: &gt;= 0</td></tr>
+            <tr><td>QT_ESTOQUE_MIN</td><td>integer</td><td>Quantidade mínima para alerta</td><td>Domínio: &gt;= 0</td></tr>
+            <tr><td>IN_PERECIVEL</td><td>boolean</td><td>Indica se o produto é perecível</td><td>Domínio: {true, false}</td></tr>
+            <tr><td>IN_PERMITE_ACOMP</td><td>boolean</td><td>Permite escolher acompanhamentos</td><td>Domínio: {true, false}</td></tr>
+            <tr><td>IN_PERMITE_COB</td><td>boolean</td><td>Permite escolher coberturas</td><td>Domínio: {true, false}</td></tr>
+            <tr><td>IN_ATIVO</td><td>boolean</td><td>Indica se o produto está ativo</td><td>Domínio: {true, false}</td></tr>
+        </tbody>
+    </table>
+    <h3>Notação formal</h3>
+    <pre>PRODUTO = @CD_PRODUTO + NM_PRODUTO + (DS_PRODUTO) + TP_CATEGORIA + VL_VENDA + (VL_COMBO) + TP_UNIDADE + TP_ESTOQUE + QT_ESTOQUE + QT_ESTOQUE_MIN + IN_PERECIVEL + IN_PERMITE_ACOMP + IN_PERMITE_COB + IN_ATIVO</pre>
+
+    <!-- ========== 4. ESTOQUE_MOVIMENTACAO ========== -->
+    <h2>4. Entidade: ESTOQUE_MOVIMENTACAO</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Campo</th>
+                <th>Tipo de Dado</th>
+                <th>Descrição</th>
+                <th>Restrição / Chave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_MOVIMENTACAO</td><td>integer</td><td>Identificador único da movimentação</td><td>Chave Primária (PK)</td></tr>
+            <tr><td>CD_PRODUTO</td><td>integer</td><td>Produto movimentado</td><td>Chave Estrangeira (FK) → PRODUTO</td></tr>
+            <tr><td>CD_FORNECEDOR</td><td>integer</td><td>Fornecedor da entrada (quando aplicável)</td><td>Chave Estrangeira (FK) → FORNECEDOR (opcional)</td></tr>
+            <tr><td>TP_MOVIMENTACAO</td><td>varchar(10)</td><td>Tipo (Entrada, Saída ou Ajuste)</td><td>Domínio: {Entrada, Saída, Ajuste}</td></tr>
+            <tr><td>QT_MOVIMENTACAO</td><td>integer</td><td>Quantidade movimentada</td><td>Domínio: &gt; 0</td></tr>
+            <tr><td>DT_MOVIMENTACAO</td><td>date</td><td>Data da movimentação</td><td>Not Null (Obrigatório)</td></tr>
+            <tr><td>DS_OBSERVACAO</td><td>varchar(120)</td><td>Observação sobre a movimentação</td><td>Opcional</td></tr>
+        </tbody>
+    </table>
+    <h3>Notação formal</h3>
+    <pre>ESTOQUE_MOVIMENTACAO = @CD_MOVIMENTACAO + CD_PRODUTO + (CD_FORNECEDOR) + TP_MOVIMENTACAO + QT_MOVIMENTACAO + DT_MOVIMENTACAO + (DS_OBSERVACAO)</pre>
+
+    <!-- ========== 5. PEDIDO ========== -->
+    <h2>5. Entidade: PEDIDO</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Campo</th>
+                <th>Tipo de Dado</th>
+                <th>Descrição</th>
+                <th>Restrição / Chave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_PEDIDO</td><td>integer</td><td>Identificador único do pedido</td><td>Chave Primária (PK)</td></tr>
+            <tr><td>CD_FUNCIONARIO</td><td>integer</td><td>Funcionário que registrou o pedido</td><td>Chave Estrangeira (FK) → FUNCIONARIO</td></tr>
+            <tr><td>DT_PEDIDO</td><td>date</td><td>Data do pedido</td><td>Not Null (Obrigatório)</td></tr>
+            <tr><td>TP_CANAL</td><td>varchar(15)</td><td>Canal do pedido (Balcão, WhatsApp, Telefone)</td><td>Domínio: {Balcão, WhatsApp, Telefone}</td></tr>
+            <tr><td>TP_STATUS</td><td>varchar(15)</td><td>Status do pedido</td><td>Domínio: {Aberto, Em preparo, Entregue, Cancelado}</td></tr>
+            <tr><td>NM_CLIENTE</td><td>varchar(60)</td><td>Nome do cliente (quando informado)</td><td>Opcional</td></tr>
+            <tr><td>NR_TELEFONE_CLI</td><td>varchar(15)</td><td>Telefone do cliente (quando informado)</td><td>Opcional</td></tr>
+            <tr><td>VL_TOTAL</td><td>numeric(8,2)</td><td>Valor total do pedido</td><td>Calculado, &gt;= 0</td></tr>
+            <tr><td>VL_DESCONTO</td><td>numeric(7,2)</td><td>Valor do desconto aplicado</td><td>Domínio: &gt;= 0</td></tr>
+            <tr><td>DS_MOTIVO_DESC</td><td>varchar(60)</td><td>Motivo do desconto</td><td>Ex.: funcionário da UNICID</td></tr>
+            <tr><td>DS_OBSERVACAO</td><td>varchar(120)</td><td>Observações do pedido</td><td>Opcional</td></tr>
+        </tbody>
+    </table>
+    <h3>Notação formal</h3>
+    <pre>PEDIDO = @CD_PEDIDO + CD_FUNCIONARIO + DT_PEDIDO + TP_CANAL + TP_STATUS + (NM_CLIENTE) + (NR_TELEFONE_CLI) + VL_TOTAL + VL_DESCONTO + (DS_MOTIVO_DESC) + (DS_OBSERVACAO)</pre>
+
+    <!-- ========== 6. ITEM_PEDIDO ========== -->
+    <h2>6. Entidade: ITEM_PEDIDO</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Campo</th>
+                <th>Tipo de Dado</th>
+                <th>Descrição</th>
+                <th>Restrição / Chave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_ITEM</td><td>integer</td><td>Identificador único do item</td><td>Chave Primária (PK)</td></tr>
+            <tr><td>CD_PEDIDO</td><td>integer</td><td>Pedido ao qual o item pertence</td><td>Chave Estrangeira (FK) → PEDIDO</td></tr>
+            <tr><td>CD_PRODUTO</td><td>integer</td><td>Produto do item</td><td>Chave Estrangeira (FK) → PRODUTO</td></tr>
+            <tr><td>QT_ITEM</td><td>integer</td><td>Quantidade pedida</td><td>Domínio: &gt; 0</td></tr>
+            <tr><td>VL_UNITARIO</td><td>numeric(7,2)</td><td>Preço unitário no momento da venda</td><td>Domínio: &gt;= 0</td></tr>
+            <tr><td>VL_SUBTOTAL</td><td>numeric(8,2)</td><td>Quantidade × preço unitário</td><td>Calculado</td></tr>
+            <tr><td>DS_OBSERVACAO</td><td>varchar(120)</td><td>Observação do item</td><td>Opcional</td></tr>
+        </tbody>
+    </table>
+    <h3>Notação formal</h3>
+    <pre>ITEM_PEDIDO = @CD_ITEM + CD_PEDIDO + CD_PRODUTO + QT_ITEM + VL_UNITARIO + VL_SUBTOTAL + (DS_OBSERVACAO)</pre>
+
+    <!-- ========== 7. PAGAMENTO ========== -->
+    <h2>7. Entidade: PAGAMENTO</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Campo</th>
+                <th>Tipo de Dado</th>
+                <th>Descrição</th>
+                <th>Restrição / Chave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_PAGAMENTO</td><td>integer</td><td>Identificador único do pagamento</td><td>Chave Primária (PK)</td></tr>
+            <tr><td>CD_PEDIDO</td><td>integer</td><td>Pedido pago</td><td>Chave Estrangeira (FK) → PEDIDO</td></tr>
+            <tr><td>TP_FORMA_PAG</td><td>varchar(15)</td><td>Forma de pagamento</td><td>Domínio: {Débito, Crédito, Pix, Dinheiro}</td></tr>
+            <tr><td>VL_PAGAMENTO</td><td>numeric(8,2)</td><td>Valor pago</td><td>Domínio: &gt; 0</td></tr>
+            <tr><td>DT_PAGAMENTO</td><td>date</td><td>Data do pagamento</td><td>Not Null (Obrigatório)</td></tr>
+            <tr><td>TP_STATUS_PAG</td><td>varchar(10)</td><td>Status do pagamento</td><td>Domínio: {Pendente, Pago, Cancelado}</td></tr>
+        </tbody>
+    </table>
+    <h3>Notação formal</h3>
+    <pre>PAGAMENTO = @CD_PAGAMENTO + CD_PEDIDO + TP_FORMA_PAG + VL_PAGAMENTO + DT_PAGAMENTO + TP_STATUS_PAG</pre>
+
+    <!-- ========== 8. PRATO_DO_DIA ========== -->
+    <h2>8. Entidade: PRATO_DO_DIA</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Campo</th>
+                <th>Tipo de Dado</th>
+                <th>Descrição</th>
+                <th>Restrição / Chave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_PRATO_DIA</td><td>integer</td><td>Identificador único do prato do dia</td><td>Chave Primária (PK)</td></tr>
+            <tr><td>CD_PRODUTO</td><td>integer</td><td>Produto ofertado como prato do dia</td><td>Chave Estrangeira (FK) → PRODUTO</td></tr>
+            <tr><td>DT_OFERTA</td><td>date</td><td>Data de oferta</td><td>Not Null (Obrigatório)</td></tr>
+            <tr><td>VL_PROMOCIONAL</td><td>numeric(7,2)</td><td>Preço promocional do dia</td><td>Domínio: &gt;= 0</td></tr>
+            <tr><td>DS_DESCRICAO</td><td>varchar(120)</td><td>Descrição complementar</td><td>Opcional</td></tr>
+            <tr><td>IN_ATIVO</td><td>boolean</td><td>Indica se a oferta está ativa</td><td>Domínio: {true, false}</td></tr>
+        </tbody>
+    </table>
+    <h3>Notação formal</h3>
+    <pre>PRATO_DO_DIA = @CD_PRATO_DIA + CD_PRODUTO + DT_OFERTA + VL_PROMOCIONAL + (DS_DESCRICAO) + IN_ATIVO</pre>
+
+    <!-- ========== 9. COMBO_ITEM ========== -->
+    <h2>9. Entidade: COMBO_ITEM</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Campo</th>
+                <th>Tipo de Dado</th>
+                <th>Descrição</th>
+                <th>Restrição / Chave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_COMBO_ITEM</td><td>integer</td><td>Identificador único</td><td>Chave Primária (PK)</td></tr>
+            <tr><td>CD_PRODUTO_COMBO</td><td>integer</td><td>Produto que é o combo (ex: X-Burger Combo)</td><td>Chave Estrangeira (FK) → PRODUTO</td></tr>
+            <tr><td>CD_PRODUTO_ITEM</td><td>integer</td><td>Produto que compõe o combo (ex: Batata)</td><td>Chave Estrangeira (FK) → PRODUTO</td></tr>
+            <tr><td>QT_ITEM</td><td>integer</td><td>Quantidade do item no combo</td><td>Domínio: &gt; 0</td></tr>
+        </tbody>
+    </table>
+    <h3>Notação formal</h3>
+    <pre>COMBO_ITEM = @CD_COMBO_ITEM + CD_PRODUTO_COMBO + CD_PRODUTO_ITEM + QT_ITEM</pre>
+
+    <!-- ========== 10. ACOMPANHAMENTO ========== -->
+    <h2>10. Entidade: ACOMPANHAMENTO</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Campo</th>
+                <th>Tipo de Dado</th>
+                <th>Descrição</th>
+                <th>Restrição / Chave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_ACOMPANHAMENTO</td><td>integer</td><td>Identificador único</td><td>Chave Primária (PK)</td></tr>
+            <tr><td>NM_ACOMPANHAMENTO</td><td>varchar(40)</td><td>Nome (ex: Arroz, Feijão, Bacon, Cheddar)</td><td>Not Null (Obrigatório)</td></tr>
+            <tr><td>TP_ACOMPANHAMENTO</td><td>varchar(15)</td><td>Tipo (Acompanhamento ou Cobertura)</td><td>Domínio: {Acompanhamento, Cobertura}</td></tr>
+            <tr><td>VL_ADICIONAL</td><td>numeric(6,2)</td><td>Preço extra, se houver</td><td>Padrão: 0,00</td></tr>
+        </tbody>
+    </table>
+    <h3>Notação formal</h3>
+    <pre>ACOMPANHAMENTO = @CD_ACOMPANHAMENTO + NM_ACOMPANHAMENTO + TP_ACOMPANHAMENTO + VL_ADICIONAL</pre>
+
+    <!-- ========== 11. ITEM_PEDIDO_ACOMPANHAMENTO ========== -->
+    <h2>11. Entidade: ITEM_PEDIDO_ACOMPANHAMENTO</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Campo</th>
+                <th>Tipo de Dado</th>
+                <th>Descrição</th>
+                <th>Restrição / Chave</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_ITEM</td><td>integer</td><td>Item do pedido</td><td>Chave Estrangeira (FK) → ITEM_PEDIDO</td></tr>
+            <tr><td>CD_ACOMPANHAMENTO</td><td>integer</td><td>Acompanhamento escolhido</td><td>Chave Estrangeira (FK) → ACOMPANHAMENTO</td></tr>
+            <tr><td>QT_ESCOLHA</td><td>integer</td><td>Quantidade escolhida</td><td>Domínio: &gt; 0</td></tr>
+        </tbody>
+    </table>
+    <h3>Notação formal</h3>
+    <pre>ITEM_PEDIDO_ACOMPANHAMENTO = CD_ITEM + CD_ACOMPANHAMENTO + QT_ESCOLHA</pre>
+
+    <footer>
+        <p>Dicionário de Dados — MAXfood · Modelagem de Banco de Dados · Prof. Cid Andrade · 2026.2</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
