@@ -285,7 +285,7 @@
 
 > A imagem do DER está anexada ao repositório (`der.png`).
 
-![DER](der.png)
+![DER](DER.png)
 
 ---
 
