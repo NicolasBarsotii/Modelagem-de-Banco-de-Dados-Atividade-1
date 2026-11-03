@@ -78,7 +78,7 @@ As chaves primárias (**PK**) identificam exclusivamente cada registro, enquanto
 
 - **CD_MOVIMENTACAO** (PK)
 - CD_PRODUTO (FK)
-- CD_FORNECEDOR (FK)
+- CD_FORNECEDOR (FK, permite NULL)
 - TP_MOVIMENTACAO
 - QT_MOVIMENTACAO
 - DT_MOVIMENTACAO
@@ -141,6 +141,8 @@ As chaves primárias (**PK**) identificam exclusivamente cada registro, enquanto
 
 ## 2. Relacionamentos entre as Tabelas
 
+Os relacionamentos do banco de dados são apresentados a seguir:
+
 | Tabela de origem | Cardinalidade | Tabela relacionada |
 |---|---|---|
 | FUNCIONARIO | 1:N | PEDIDO |
@@ -153,16 +155,22 @@ As chaves primárias (**PK**) identificam exclusivamente cada registro, enquanto
 | PRODUTO | 1:N | ITEM_PEDIDO |
 | PEDIDO | 1:N | PAGAMENTO |
 | PRODUTO | 1:N | PRATO_DO_DIA |
+| PRODUTO (combo) | 1:N | COMBO_ITEM |
+| PRODUTO (componente) | 1:N | COMBO_ITEM |
 | ITEM_PEDIDO | 1:N | ITEM_PEDIDO_ACOMPANHAMENTO |
 | ACOMPANHAMENTO | 1:N | ITEM_PEDIDO_ACOMPANHAMENTO |
 
-### Relacionamento dos Combos
+### 2.1 Relacionamento dos Combos
 
-A tabela `COMBO_ITEM` estabelece um relacionamento entre produtos, permitindo que um produto cadastrado como combo seja composto por outros produtos.
+A tabela `COMBO_ITEM` estabelece o relacionamento entre produtos, permitindo que um produto cadastrado como combo seja composto por outros produtos.
 
-### Relacionamento dos Acompanhamentos
+Ela possui duas chaves estrangeiras que apontam para a tabela `PRODUTO`: uma identifica o combo e a outra identifica o produto que faz parte dele.
+
+### 2.2 Relacionamento dos Acompanhamentos
 
 A tabela `ITEM_PEDIDO_ACOMPANHAMENTO` relaciona os itens de um pedido aos acompanhamentos escolhidos, permitindo registrar as opções selecionadas e suas quantidades.
+
+Essa tabela utiliza uma chave primária composta por `CD_ITEM` e `CD_ACOMPANHAMENTO`.
 
 ## 3. Considerações Finais
 
@@ -179,4 +187,5 @@ As tabelas também contemplam os pratos do dia, os combos e os acompanhamentos e
 | PK | Chave Primária |
 | FK | Chave Estrangeira |
 | UNIQUE | Valor único, não repetido |
+| NULL | Permite valor nulo |
 | 1:N | Um para muitos |
