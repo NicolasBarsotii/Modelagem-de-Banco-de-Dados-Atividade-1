@@ -5,11 +5,11 @@
 
 | Nome completo do aluno | RGM | Usuário do GitHub |
 | :--- | :--- | :--- |
-| Anderson Josué Quispe Salcedo | 50132075 | ⚠️ (andersonjosue1528) |
-| João Victor Cipriano Bezerra | 48071277 | ⚠️ (john099gg) |
-| Luis Angel Yana Poma | 50132229 | ⚠️ (luisangelyp2019-oss) |
-| Nicolas de Oliveira Batista Barsoti | 48030058 | ⚠️ (nicolasbarsotii) |
-| Paulo Henrique Oliveira dos Santos | 47848430 | ⚠️ (PauloSantss) |
+| Anderson Josué Quispe Salcedo | 50132075 |  (andersonjosue1528) |
+| João Victor Cipriano Bezerra | 48071277 | (john099gg) |
+| Luis Angel Yana Poma | 50132229 |  (luisangelyp2019-oss) |
+| Nicolas de Oliveira Batista Barsoti | 48030058 | (nicolasbarsotii) |
+| Paulo Henrique Oliveira dos Santos | 47848430 |  (PauloSantss) |
 
 ---
 
@@ -71,11 +71,6 @@
 - **RN09:** Produtos perecíveis vencidos devem ser descartados e registrados como perda.
 - **RN10:** Pedidos só podem ser cancelados se o status for "Aberto" ou "Em preparo".
 - **RN11:** A lanchonete não emite nota fiscal; o comprovante é o cupom não fiscal.
-
-#### Notação do DER conceitual
-
-- **Software utilizado:** ⚠️ **PENDENTE — informar em qual software o DER foi criado (ex.: brModelo, draw.io, etc.)** e confirmar que a notação segue o padrão brModelo (retângulos, losangos, cardinalidades `(mín, máx)`, chave com círculo preenchido, etc.).
-- O DER está no arquivo `DER.png`.
 
 #### Caso A — Apontamentos da correção da E1
 
