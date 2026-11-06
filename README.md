@@ -35,7 +35,7 @@
 
 - **Quem:** Entrevista realizada com o responsável, Rafael Novais. Participação dos integrantes do grupo.
 - **Quando e onde:** Realizada presencialmente no ambiente da organização (UNICID - Tatuapé), com comprovação via foto anexada no repositório (`fotos/foto_no_dia_da_entrevista.jpeg`).
-- **O que foi levantado:** Durante a observação, notou-se que o estoque de bebidas é mantido em geladeiras separadas (estoque de amostra) e em um depósito nos fundos (estoque interno). Foi confirmado que não há cadastro de clientes e que a venda fiada é rara. O levantamento completo está detalhado no arquivo [levantamento/levantamento.md](./levantamento/levantamento.md).
+- **O que foi levantado:** Durante a observação, notou-se que o estoque de bebidas é mantido em geladeiras separadas (estoque de amostra) e em um depósito nos fundos (estoque interno). Foi confirmado que não há cadastro de clientes e que a venda fiada é rara. O levantamento completo está detalhado no arquivo [Levantamento/levantamento.md](./Levantamento/levantamento.md).
 
 **Processos de negócio**
 
