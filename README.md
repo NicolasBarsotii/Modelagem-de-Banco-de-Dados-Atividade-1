@@ -177,7 +177,7 @@ O repositório está organizado da seguinte forma:
 - `README.md` (Relatório Técnico)
 - [Dicionario.html](./Dicionario.html) (Dicionário de Dados atualizado)
 - [DER.png](./DER.png) (Modelo Conceitual revisado)
-- [Modelo_Logico.png](./Modelo_Logico.png) (Modelo Lógico)
+- [Modelo_Logico.png](./Modelo_logico.png) (Modelo Lógico)
 - `levantamento/` (Pasta com o arquivo de levantamento e fotos)
 - `docs/` (Pasta contendo o [Script.sql](./docs/Script.sql))
 
