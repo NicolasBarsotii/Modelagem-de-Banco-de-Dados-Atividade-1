@@ -158,7 +158,7 @@ O DER foi criado no software **brModelo Web**. [Link para o DER](./DER.png).
 ## 2. Modelo Lógico Relacional
 
 O modelo lógico foi criado no **MySQL Workbench** e pode ser visualizado na imagem abaixo:
-[Clique aqui para abrir o Modelo Lógico](./Modelo_Logico.png)
+[Clique aqui para abrir o Modelo Lógico](./Modelo_logico.png)
 
 Ele representa as tabelas, colunas com seus respectivos tipos de dados, Chaves Primárias (PK) e Chaves Estrangeiras (FK).
 
