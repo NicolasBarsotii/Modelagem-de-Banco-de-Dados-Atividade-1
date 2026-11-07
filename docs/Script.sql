@@ -1,5 +1,5 @@
 -- ==========================================================
--- SCRIPT SQL COMPLETO - MAXFOOD (Entrega 2)
+-- SCRIPT SQL COMPLETO - MAXFOOD (Entrega 2) 
 -- SGBD: MySQL 8.0+
 -- ==========================================================
 
@@ -132,6 +132,18 @@ CREATE TABLE PAGAMENTO (
     FOREIGN KEY (CD_PEDIDO) REFERENCES PEDIDO(CD_PEDIDO) ON DELETE RESTRICT
 );
 
+-- NOVA TABELA: NOTA_FISCAL (Exigência da correção)
+CREATE TABLE NOTA_FISCAL (
+    CD_NOTA_FISCAL INT AUTO_INCREMENT PRIMARY KEY,
+    CD_PEDIDO INT NOT NULL,
+    NR_NOTA_FISCAL VARCHAR(20) NOT NULL,
+    DT_EMISSAO DATETIME DEFAULT CURRENT_TIMESTAMP,
+    VL_NOTA DECIMAL(8,2) NOT NULL CHECK (VL_NOTA >= 0),
+    DS_CHAVE_ACESSO VARCHAR(44) UNIQUE, -- Padrão de 44 dígitos para NFe
+    TP_STATUS_NOTA ENUM('Emitida', 'Cancelada', 'Pendente') DEFAULT 'Emitida',
+    FOREIGN KEY (CD_PEDIDO) REFERENCES PEDIDO(CD_PEDIDO) ON DELETE RESTRICT
+);
+
 CREATE TABLE PRATO_DO_DIA (
     CD_PRATO_DIA INT AUTO_INCREMENT PRIMARY KEY,
     CD_PRODUTO INT NOT NULL,
@@ -176,14 +188,14 @@ INSERT INTO FORNECEDOR (NM_FORNECEDOR, NR_CNPJ, NR_TELEFONE, NM_EMAIL) VALUES
 ('Atacadão de Carnes', '22.333.444/0001-55', '1144445555', 'vendas@carnes.com'),
 ('Padaria Central', '33.444.555/0001-66', '1155556666', 'paes@central.com');
 
--- Produtos (Variedade para testes)
-INSERT INTO PRODUTO (NM_PRODUTO, TP_CATEGORIA, VL_VENDA, TP_UNIDADE, TP_ESToque, QT_ESTOQUE, QT_ESTOQUE_MIN, IN_PERECIVEL, IN_PERMITE_ACOMP, IN_PERMITE_COB) VALUES
+-- Produtos
+INSERT INTO PRODUTO (NM_PRODUTO, TP_CATEGORIA, VL_VENDA, TP_UNIDADE, TP_ESTOQUE, QT_ESTOQUE, QT_ESTOQUE_MIN, IN_PERECIVEL, IN_PERMITE_ACOMP, IN_PERMITE_COB) VALUES
 ('X-Burger', 'Lanches', 15.00, 'un', 'Interno', 50, 10, TRUE, TRUE, FALSE),
 ('Batata Frita', 'Porções', 10.00, 'porção', 'Interno', 30, 5, TRUE, FALSE, TRUE),
-('Refrigerante Lata', 'Bebidas', 6.00, 'un', 'Amostra', 2, 10, FALSE, FALSE, FALSE), -- Estoque abaixo do mínimo (P1)
+('Refrigerante Lata', 'Bebidas', 6.00, 'un', 'Amostra', 2, 10, FALSE, FALSE, FALSE),
 ('Suco Natural', 'Bebidas', 8.00, 'copo', 'Interno', 20, 5, TRUE, FALSE, FALSE),
 ('Prato Feito', 'Refeições', 20.00, 'prato', 'Interno', 15, 5, TRUE, TRUE, FALSE),
-('Sorvete', 'Sobremesas', 7.00, 'un', 'Interno', 0, 5, TRUE, FALSE, FALSE), -- Estoque zerado
+('Sorvete', 'Sobremesas', 7.00, 'un', 'Interno', 0, 5, TRUE, FALSE, FALSE),
 ('Combo X-Burger', 'Combos', 22.00, 'un', 'Interno', 20, 5, FALSE, FALSE, FALSE);
 
 -- Acompanhamentos e Coberturas
@@ -194,70 +206,65 @@ INSERT INTO ACOMPANHAMENTO (NM_ACOMPANHAMENTO, TP_ACOMPANHAMENTO, VL_ADICIONAL) 
 ('Cheddar', 'Cobertura', 3.00),
 ('Bacon', 'Cobertura', 4.00);
 
--- Combo (X-Burger + Refrigerante)
+-- Combo
 INSERT INTO COMBO_ITEM (CD_PRODUTO_COMBO, CD_PRODUTO_ITEM, QT_ITEM) VALUES (7, 1, 1), (7, 3, 1);
 
--- Movimentações de Estoque (Entradas, Saídas e Perda)
+-- Movimentações de Estoque
 INSERT INTO ESTOQUE_MOVIMENTACAO (CD_PRODUTO, CD_FORNECEDOR, TP_MOVIMENTACAO, QT_MOVIMENTACAO, DS_OBSERVACAO) VALUES
 (1, 2, 'Entrada', 50, 'Compra inicial de carne'),
 (3, 1, 'Entrada', 100, 'Compra de refrigerantes'),
-(2, NULL, 'Perda', 5, 'Batatas venceram (RN09)'), -- Perda
-(6, NULL, 'Perda', 10, 'Sorvete derreteu (RN09)'); -- Perda
+(2, NULL, 'Perda', 5, 'Batatas venceram (RN09)'),
+(6, NULL, 'Perda', 10, 'Sorvete derreteu (RN09)');
 
--- Compras (Reposição de estoque)
+-- Compras
 INSERT INTO PEDIDO_COMPRA (CD_FORNECEDOR, TP_STATUS) VALUES (1, 'Recebido');
 INSERT INTO ITEM_COMPRA (CD_PEDIDO_COMPRA, CD_PRODUTO, QT_COMPRA, VL_UNITARIO) VALUES (1, 3, 100, 3.50);
 
--- Pedidos (Incluindo casos de teste)
--- Pedido 1: Balcão, com desconto UNICID
+-- Pedidos
 INSERT INTO PEDIDO (CD_FUNCIONARIO, TP_CANAL, TP_STATUS, NM_CLIENTE, VL_TOTAL, VL_DESCONTO, DS_MOTIVO_DESC) VALUES 
 (2, 'Balcão', 'Entregue', 'Cliente A', 20.00, 2.00, 'Funcionário UNICID (RN01)');
 INSERT INTO ITEM_PEDIDO (CD_PEDIDO, CD_PRODUTO, QT_ITEM, VL_UNITARIO, VL_SUBTOTAL) VALUES 
 (1, 1, 1, 15.00, 15.00), (1, 3, 1, 6.00, 6.00);
-INSERT INTO PAGAMENTO (CD_PEDIDO, TP_FORMA_PAG, VL_PAGAMENTO, TP_STATUS_PAG) VALUES (1, 'Pix', 19.00, 'Pago'); -- 20 - 2 desconto + 1? Ajuste matemático de teste
+INSERT INTO PAGAMENTO (CD_PEDIDO, TP_FORMA_PAG, VL_PAGAMENTO, TP_STATUS_PAG) VALUES (1, 'Pix', 19.00, 'Pago');
 
--- Pedido 2: WhatsApp, Fiado (Pendente)
 INSERT INTO PEDIDO (CD_FUNCIONARIO, TP_CANAL, TP_STATUS, NM_CLIENTE, NR_TELEFONE_CLI, VL_TOTAL) VALUES 
 (2, 'WhatsApp', 'Entregue', 'Cliente Amigo', '11912345678', 20.00);
 INSERT INTO ITEM_PEDIDO (CD_PEDIDO, CD_PRODUTO, QT_ITEM, VL_UNITARIO, VL_SUBTOTAL) VALUES (2, 5, 1, 20.00, 20.00);
-INSERT INTO PAGAMENTO (CD_PEDIDO, TP_FORMA_PAG, VL_PAGAMENTO, TP_STATUS_PAG) VALUES (2, 'Dinheiro', 20.00, 'Pendente'); -- Fiado (RN04)
+INSERT INTO PAGAMENTO (CD_PEDIDO, TP_FORMA_PAG, VL_PAGAMENTO, TP_STATUS_PAG) VALUES (2, 'Dinheiro', 20.00, 'Pendente');
 
--- Pedido 3: Cancelado
 INSERT INTO PEDIDO (CD_FUNCIONARIO, TP_CANAL, TP_STATUS, VL_TOTAL) VALUES (2, 'Telefone', 'Cancelado', 10.00);
 INSERT INTO ITEM_PEDIDO (CD_PEDIDO, CD_PRODUTO, QT_ITEM, VL_UNITARIO, VL_SUBTOTAL) VALUES (3, 2, 1, 10.00, 10.00);
 
--- Fechamento de caixa do dia (Simulação)
+-- Inserindo Notas Fiscais (Massa de dados para a nova tabela)
+INSERT INTO NOTA_FISCAL (CD_PEDIDO, NR_NOTA_FISCAL, VL_NOTA, DS_CHAVE_ACESSO, TP_STATUS_NOTA) VALUES 
+(1, '000001', 19.00, '35261122223333000144550010000000011234567890', 'Emitida'),
+(3, '000002', 10.00, '35261122223333000144550010000000021234567890', 'Cancelada');
+
+-- Fechamento de caixa do dia
 INSERT INTO FECHAMENTO_CAIXA (DT_FECHAMENTO, VL_TOTAL_DINHEIRO, VL_TOTAL_PIX, VL_TOTAL_GERAL) VALUES 
 (CURDATE(), 20.00, 19.00, 39.00);
 
 -- ==========================================================
 -- 4. DML BÁSICO (UPDATE e DELETE)
 -- ==========================================================
-
--- UPDATE: Atualizando o status do Pedido 2 para 'Cancelado' (Teste)
 UPDATE PEDIDO SET TP_STATUS = 'Cancelado' WHERE CD_PEDIDO = 2;
-
--- DELETE: Deletando um item de compra (Teste)
-DELETE FROM ITEM_COMPRA WHERE CD_ITEM_COMPRA = 1; -- Cuidado: em um sistema real, isso pode quebrar histórico. Usado apenas para demonstrar o comando.
+DELETE FROM ITEM_COMPRA WHERE CD_ITEM_COMPRA = 1;
 
 -- ==========================================================
 -- 5. SELECT COM JOIN (Consultas de Junção)
 -- ==========================================================
-
--- SELECT 1: Ver todos os itens dos pedidos, seus produtos e preços
 SELECT P.CD_PEDIDO, PR.NM_PRODUTO, I.QT_ITEM, I.VL_UNITARIO, I.VL_SUBTOTAL
 FROM PEDIDO P
 JOIN ITEM_PEDIDO I ON P.CD_PEDIDO = I.CD_PEDIDO
 JOIN PRODUTO PR ON I.CD_PRODUTO = PR.CD_PRODUTO;
 
--- SELECT 2: Ver os pagamentos e o nome do funcionário que registrou o pedido
 SELECT P.CD_PEDIDO, F.NM_FUNCIONARIO, PAG.TP_FORMA_PAG, PAG.VL_PAGAMENTO
 FROM PEDIDO P
 JOIN FUNCIONARIO F ON P.CD_FUNCIONARIO = F.CD_FUNCIONARIO
 JOIN PAGAMENTO PAG ON P.CD_PEDIDO = PAG.CD_PEDIDO;
 
 -- ==========================================================
--- 6. CONSULTAS GERENCIAIS (G01 a G05)
+-- 6. CONSULTAS GERENCIAIS (G01 a G06)
 -- ==========================================================
 
 -- G01 — Quais produtos estão abaixo do estoque mínimo hoje?
@@ -295,8 +302,14 @@ SELECT TP_STATUS, COUNT(*) AS Quantidade_Pedidos
 FROM PEDIDO
 GROUP BY TP_STATUS;
 
+-- G06 — Relatório de Notas Fiscais Emitidas por Pedido (NOVA)
+-- Atende: Requisito de Emissão Fiscal (correção do professor)
+SELECT NF.CD_NOTA_FISCAL, NF.NR_NOTA_FISCAL, P.CD_PEDIDO, NF.VL_NOTA, NF.TP_STATUS_NOTA
+FROM NOTA_FISCAL NF
+JOIN PEDIDO P ON NF.CD_PEDIDO = P.CD_PEDIDO;
+
 -- ==========================================================
--- 7. CONSULTAS DE AUDITORIA (A01 a A03)
+-- 7. CONSULTAS DE AUDITORIA (A01 a A04)
 -- ==========================================================
 
 -- A01 — Existe pedido registrado sem nenhum item?
@@ -317,3 +330,10 @@ WHERE TP_MOVIMENTACAO = 'Entrada' AND CD_FORNECEDOR IS NULL;
 SELECT CD_PAGAMENTO, VL_PAGAMENTO, TP_STATUS_PAG
 FROM PAGAMENTO
 WHERE VL_PAGAMENTO <= 0 AND TP_STATUS_PAG = 'Pago';
+
+-- A04 — Existe nota fiscal emitida com valor diferente do total do pedido? (NOVA)
+-- Verifica: Consistência fiscal (RN12)
+SELECT NF.CD_NOTA_FISCAL, NF.VL_NOTA, P.VL_TOTAL
+FROM NOTA_FISCAL NF
+JOIN PEDIDO P ON NF.CD_PEDIDO = P.CD_PEDIDO
+WHERE NF.VL_NOTA != P.VL_TOTAL;
