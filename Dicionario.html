@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dicionário de Dados — MAXfood (Entrega 2)</title>
+    <title>Dicionário de Dados — MAXfood (Atualizado)</title>
     <style>
         /* ====== RESET E BASE ====== */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -153,14 +153,14 @@
         <div class="meta-info">
             <span><strong>SGBD:</strong> MySQL 8.0+</span>
             <span><strong>Collation:</strong> utf8mb4_general_ci</span>
-            <span><strong>Versão do Documento:</strong> 2.0 (Revisada)</span>
+            <span><strong>Versão do Documento:</strong> 3.0 (Correção Fiscal)</span>
         </div>
     </header>
 
     <!-- ========== FLUXO DE DADOS E LGPD ========== -->
     <h2>1. Visão Geral do Sistema</h2>
     <h3>Fluxo de Dados Principal</h3>
-    <p style="margin-bottom: 15px; font-size: 14px;">O fluxo inicia-se no <strong>Atendimento</strong>, onde o funcionário registra o <em>PEDIDO</em> e seus <em>ITENS</em>. Em seguida, o pedido é enviado para a <strong>Cozinha</strong> (mudança de status). Após a entrega, o <strong>Caixa</strong> registra o <em>PAGAMENTO</em>. Paralelamente, o <strong>Estoque</strong> é alimentado por <em>PEDIDOS_COMPRA</em> (entradas) e consumido pelas vendas e perdas.</p>
+    <p style="margin-bottom: 15px; font-size: 14px;">O fluxo inicia-se no <strong>Atendimento</strong>, onde o funcionário registra o <em>PEDIDO</em> e seus <em>ITENS</em>. Em seguida, o pedido é enviado para a <strong>Cozinha</strong>. Após a entrega, o <strong>Caixa</strong> registra o <em>PAGAMENTO</em> e emite a <em>NOTA_FISCAL</em>. Paralelamente, o <strong>Estoque</strong> é alimentado por <em>PEDIDOS_COMPRA</em> (entradas) e consumido pelas vendas e perdas.</p>
 
     <h3>Papéis de Acesso e LGPD</h3>
     <table>
@@ -174,8 +174,8 @@
         <tbody>
             <tr>
                 <td>Atendente / Caixa</td>
-                <td>Inserir Pedidos, Itens, Pagamentos e Fechamento de Caixa. Consultar Produtos.</td>
-                <td>Não armazenar dados sensíveis. Nome e telefone do cliente (quando informados para entrega/fiado) são opcionais e não cruzados com CPF.</td>
+                <td>Inserir Pedidos, Itens, Pagamentos, Notas Fiscais e Fechamento de Caixa.</td>
+                <td>Não armazenar dados sensíveis. Nome e telefone do cliente (quando informados) são opcionais.</td>
             </tr>
             <tr>
                 <td>Cozinha</td>
@@ -203,13 +203,13 @@
         <tbody>
             <tr><td>CD_</td><td>Código / Chave Primária</td><td>CD_FORNECEDOR</td></tr>
             <tr><td>NM_</td><td>Nome descritivo</td><td>NM_FORNECEDOR</td></tr>
-            <tr><td>NR_</td><td>Número (Telefone, CNPJ, etc.)</td><td>NR_TELEFONE, NR_CNPJ</td></tr>
-            <tr><td>DT_</td><td>Data ou Data/Hora</td><td>DT_MOVIMENTACAO</td></tr>
+            <tr><td>NR_</td><td>Número (Telefone, CNPJ, Nota)</td><td>NR_NOTA_FISCAL</td></tr>
+            <tr><td>DT_</td><td>Data ou Data/Hora</td><td>DT_EMISSAO</td></tr>
             <tr><td>QT_</td><td>Quantidade</td><td>QT_ESTOQUE</td></tr>
             <tr><td>TP_</td><td>Tipo / Categoria / Enum</td><td>TP_MOVIMENTACAO</td></tr>
             <tr><td>IN_</td><td>Indicador booleano (Verdadeiro/Falso)</td><td>IN_ATIVO</td></tr>
             <tr><td>VL_</td><td>Valor monetário</td><td>VL_VENDA</td></tr>
-            <tr><td>DS_</td><td>Descrição / Texto livre</td><td>DS_OBSERVACAO</td></tr>
+            <tr><td>DS_</td><td>Descrição / Texto livre</td><td>DS_CHAVE_ACESSO</td></tr>
         </tbody>
     </table>
 
@@ -230,6 +230,7 @@
             <tr><td>PEDIDO</td><td>(1,N) para (1,1)</td><td>ITEM_PEDIDO</td><td>Um pedido tem 1 ou mais itens. Um item pertence a exatamente um pedido.</td></tr>
             <tr><td>PRODUTO</td><td>(0,N) para (1,1)</td><td>ITEM_PEDIDO</td><td>Um produto pode estar em vários itens de pedido.</td></tr>
             <tr><td>PEDIDO</td><td>(0,N) para (1,1)</td><td>PAGAMENTO</td><td>Um pedido pode ter mais de um pagamento (ex: metade Pix, metade Dinheiro).</td></tr>
+            <tr><td>PEDIDO</td><td>(1,N) para (1,1)</td><td>NOTA_FISCAL</td><td>Um pedido gera uma Nota Fiscal. Uma NF pertence a exatamente um pedido.</td></tr>
             <tr><td>PEDIDO</td><td>(0,N) para (1,1)</td><td>PEDIDO_COMPRA</td><td>Um pedido de compra é feito a um fornecedor.</td></tr>
             <tr><td>ITEM_PEDIDO</td><td>(0,N) para (1,1)</td><td>ITEM_PEDIDO_ACOMPANHAMENTO</td><td>Item pode ter escolhas de acompanhamentos (N:N resolvido).</td></tr>
         </tbody>
@@ -239,6 +240,7 @@
     <p style="margin-bottom: 10px; font-size: 14px;">Além das Chaves Primárias (PK) e Estrangeiras (FK) criadas automaticamente pelo SGBD, foram definidos os seguintes índices para otimização:</p>
     <ul style="margin-left: 20px; margin-bottom: 20px; font-size: 14px;">
         <li><code>UNIQUE INDEX idx_cnpj</code> na coluna <code>NR_CNPJ</code> da tabela <strong>FORNECEDOR</strong> (Garante unicidade).</li>
+        <li><code>UNIQUE INDEX idx_chave_nfe</code> na coluna <code>DS_CHAVE_ACESSO</code> da tabela <strong>NOTA_FISCAL</strong> (Evita duplicidade de notas).</li>
         <li><code>INDEX idx_dt_pedido</code> na coluna <code>DT_PEDIDO</code> da tabela <strong>PEDIDO</strong> (Acelera consultas de fechamento diário e BI).</li>
         <li><code>INDEX idx_nm_produto</code> na coluna <code>NM_PRODUTO</code> da tabela <strong>PRODUTO</strong> (Acelera buscas no cardápio).</li>
     </ul>
@@ -293,7 +295,7 @@
             <tr><td>CD_PRODUTO</td><td>INT</td><td>Identificador único</td><td>PK, AUTO_INCREMENT</td></tr>
             <tr><td>NM_PRODUTO</td><td>VARCHAR(60)</td><td>Nome do item no cardápio</td><td>NOT NULL</td></tr>
             <tr><td>DS_PRODUTO</td><td>VARCHAR(120)</td><td>Ingredientes ou detalhes</td><td>NULL</td></tr>
-            <tr><td>TP_CATEGORIA</td><td>VARCHAR(30)</td><td>Categoria (Lanches, Bebidas, etc)</td><td>NOT NULL</td></tr>
+            <tr><td>TP_CATEGORIA</td><td>VARCHAR(30)</td><td>Categoria (Lanches, Bebidas)</td><td>NOT NULL</td></tr>
             <tr><td>VL_VENDA</td><td>DECIMAL(7,2)</td><td>Preço unitário de venda</td><td>NOT NULL, CHECK >= 0</td></tr>
             <tr><td>VL_COMBO</td><td>DECIMAL(7,2)</td><td>Preço se vendido em combo</td><td>CHECK >= 0</td></tr>
             <tr><td>TP_UNIDADE</td><td>VARCHAR(10)</td><td>Medida (un, prato, copo)</td><td>NOT NULL</td></tr>
@@ -390,6 +392,25 @@
             <tr><td>TP_STATUS_PAG</td><td>ENUM</td><td>Situação (Fiado = Pendente)</td><td>DEFAULT 'Pago'</td></tr>
         </tbody>
     </table>
+    <pre>PAGAMENTO = @CD_PAGAMENTO + CD_PEDIDO + TP_FORMA_PAG + VL_PAGAMENTO + DT_PAGAMENTO + TP_STATUS_PAG</pre>
+
+    <!-- NOTA_FISCAL (NOVA) -->
+    <h3>Entidade: NOTA_FISCAL</h3>
+    <table>
+        <thead>
+            <tr><th>Campo</th><th>Tipo</th><th>Descrição</th><th>Restrição</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>CD_NOTA_FISCAL</td><td>INT</td><td>Identificador único</td><td>PK, AUTO_INCREMENT</td></tr>
+            <tr><td>CD_PEDIDO</td><td>INT</td><td>Pedido faturado</td><td>FK → PEDIDO, NOT NULL</td></tr>
+            <tr><td>NR_NOTA_FISCAL</td><td>VARCHAR(20)</td><td>Número de emissão</td><td>NOT NULL</td></tr>
+            <tr><td>DT_EMISSAO</td><td>DATETIME</td><td>Data/hora de emissão</td><td>DEFAULT CURRENT_TIMESTAMP</td></tr>
+            <tr><td>VL_NOTA</td><td>DECIMAL(8,2)</td><td>Valor total da nota</td><td>NOT NULL, CHECK >= 0</td></tr>
+            <tr><td>DS_CHAVE_ACESSO</td><td>VARCHAR(44)</td><td>Chave de acesso da NFe</td><td>UNIQUE</td></tr>
+            <tr><td>TP_STATUS_NOTA</td><td>ENUM</td><td>Situação da nota</td><td>DEFAULT 'Emitida' ('Emitida', 'Cancelada', 'Pendente')</td></tr>
+        </tbody>
+    </table>
+    <pre>NOTA_FISCAL = @CD_NOTA_FISCAL + CD_PEDIDO + NR_NOTA_FISCAL + DT_EMISSAO + VL_NOTA + (DS_CHAVE_ACESSO) + TP_STATUS_NOTA</pre>
 
     <!-- OUTRAS ENTIDADES -->
     <h3>Demais Entidades (Fechamento, Combos, Acompanhamentos)</h3>
@@ -406,7 +427,7 @@
             <tr>
                 <td>PRATO_DO_DIA</td>
                 <td>CD_PRATO_DIA (PK), CD_PRODUTO (FK), DT_OFERTA, VL_PROMOCIONAL, DS_DESCRICAO, IN_ATIVO</td>
-                <td>Oferta diária vinculada a um produto existente (RN02).</td>
+                <td>Oferta diária vinculada a um produto existente.</td>
             </tr>
             <tr>
                 <td>COMBO_ITEM</td>
