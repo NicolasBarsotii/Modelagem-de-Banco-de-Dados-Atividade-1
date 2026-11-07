@@ -1,15 +1,16 @@
 # Entrega 2 — Modelo Lógico, Implementação SQL e Apresentação Final
+
 ### Modelagem de um sistema de gestão de informações para a MAXfood
 
 ## Integrantes
 
 | Nome completo do aluno | RGM | Usuário do GitHub |
 | :--- | :--- | :--- |
-| Anderson Josué Quispe Salcedo | 50132075 |  (andersonjosue1528) |
-| João Victor Cipriano Bezerra | 48071277 | (john099gg) |
-| Luis Angel Yana Poma | 50132229 |  (luisangelyp2019-oss) |
-| Nicolas de Oliveira Batista Barsoti | 48030058 | (nicolasbarsotii) |
-| Paulo Henrique Oliveira dos Santos | 47848430 |  (PauloSantss) |
+| Anderson Josué Quispe Salcedo | 50132075 | *(andersonjosue1528)* |
+| João Victor Cipriano Bezerra | 48071277 | *(john099gg)* |
+| Luis Angel Yana Poma | 50132229 | *(luisangelyp2019-oss)* |
+| Nicolas de Oliveira Batista Barsoti | 48030058 | *(NicolasBarsotii)* |
+| Paulo Henrique Oliveira dos Santos | 47848430 | *(PauloSantss)* |
 
 &nbsp;
 
@@ -19,129 +20,97 @@
 
 **Caracterização da organização**
 
-- **Nome e natureza da organização:** Lanchonete **MAXfood**, estabelecimento comercial de alimentação com fins lucrativos, localizado dentro da UNICID — Universidade Cidade de São Paulo, Campus Tatuapé.
-- **Contexto e porte:** Organização de pequeno porte. Funciona das **10h às 22h**. Possui **2 funcionários**: um no atendimento e outro na cozinha. A média é de **45 a 50 clientes por dia**, podendo chegar a **60** em dias de maior movimento. O volume estimado é de aproximadamente **1.200 a 1.500 pedidos por mês**.
-- **Problemas e necessidades identificados (Crise Operacional):**
-  - **P1 (Ruptura de Estoque):** Falta de controle sistemático gera falta de insumos, principalmente refrigerantes e bebidas.
-  - **P2 (Desorganização de Pedidos):** Pedidos por WhatsApp/telefone são anotados manualmente em cadernos ou planilhas soltas, gerando risco de perda de informações.
-  - **P3 (Perdas de Perecíveis):** Prejuízos eventuais com alimentos que não foram salvos e venceram, pois não há controle de validade.
-  - **P4 (Fechamento de Caixa Manual):** Dificuldade em consolidar as diferentes formas de pagamento ao final do dia.
-- **Escopo do sistema:** O banco de dados reunirá todos os dados da organização: fornecedores, compras/reposição, produtos, controle de estoque (entradas, saídas, perdas), funcionários, pedidos, itens, combos, acompanhamentos, pagamentos e fechamento de caixa.
-- **Justificativa da escolha:** A MAXfood é uma organização real, acessível ao grupo, com processos claros e porte adequado para modelagem. A ausência de um sistema informatizado a torna um caso ideal para a aplicação dos conceitos de modelagem.
-- **Evidências da organização:** Fotos do local e do cardápio anexadas ao repositório (pasta `fotos`); Perfil no Google Maps e Instagram. Endereço: UNICID - Campus Tatuapé. 
-- **Responsável pela organização:** Rafael Novais — Telefone: 11913433270.
+A MAXfood é uma lanchonete de pequeno porte, com fins lucrativos, localizada estrategicamente dentro do campus Tatuapé da Universidade Cidade de São Paulo (UNICID). Seu horário de funcionamento vai das 10h às 22h, atendendo majoritariamente o público acadêmico (alunos, professores e funcionários). A operação é enxuta, contando atualmente com apenas dois funcionários (um dedicado ao atendimento e outro à cozinha), sendo gerida pelo responsável Rafael Novais.
 
-**Relato da entrevista**
+O volume de operação é significativo para o seu porte: estima-se uma média de 45 a 50 clientes por dia, podendo chegar a 60 em dias de pico (como períodos de provas), o que resulta em um fluxo aproximado de 1.200 a 1.500 pedidos mensais. Toda essa movimentação é gerenciada atualmente de forma manual, utilizando planilhas soltas em Excel e anotações em cadernos de papel.
 
-- **Quem:** Entrevista realizada com o responsável, Rafael Novais. Participação dos integrantes do grupo.
-- **Quando e onde:** Realizada presencialmente no ambiente da organização (UNICID - Tatuapé), com comprovação via foto anexada no repositório (`fotos/foto_no_dia_da_entrevista.jpeg`).
-- **O que foi levantado:** Durante a observação, notou-se que o estoque de bebidas é mantido em geladeiras separadas (estoque de amostra) e em um depósito nos fundos (estoque interno). Foi confirmado que não há cadastro de clientes e que a venda fiada é rara. O levantamento completo está detalhado no arquivo [Levantamento/levantamento.md](./Levantamento/levantamento.md).
+**Problemas e necessidades identificados (Crise Operacional)**
+
+A falta de um sistema informatizado integrado gera quatro problemas principais, que impactam diretamente a rentabilidade e a rotina da lanchonete:
+*   **P1 (Ruptura de Estoque):** O controle visual é falho. A lanchonete frequentemente sofre com a falta de insumos essenciais, principalmente bebidas (refrigerantes). O estoque "de amostra" (nas geladeiras) acaba, e o funcionário só percebe quando o cliente pede, gerando perda de venda.
+*   **P2 (Desorganização de Pedidos):** Os pedidos feitos por WhatsApp ou telefone são anotados em um caderno. Essa prática gera erros de comunicação com a cozinha, perda de comandas e impossibilidade de consultar o histórico de pedidos de forma rápida.
+*   **P3 (Perdas de Perecíveis):** Sem um controle rigoroso de validade e quantidade, ocorrem prejuízos financeiros com alimentos que vencem e precisam ser descartados.
+*   **P4 (Fechamento de Caixa Manual):** Ao final do dia, o gerente precisa somar manualmente todas as formas de pagamento (Pix, dinheiro, cartão), o que consome tempo e está sujeito a erros de contagem.
+
+**Escopo do sistema**
+
+O banco de dados foi projetado para ser o núcleo de gestão da MAXfood, centralizando todas as informações da organização. O escopo engloba desde o cadastro de fornecedores e entrada de mercadorias, até o controle de estoque interno/amostra, gestão de funcionários, registro de pedidos (com regras de descontos e cancelamentos), gestão de combos e acompanhamentos, controle de pagamentos, emissão de notas fiscais e fechamento de caixa.
+
+**Justificativa da escolha e Evidências**
+
+A escolha da MAXfood justifica-se por ser uma organização real, acessível ao grupo, com processos muito claros e que sofre claramente com a falta de tecnologia. O porte é ideal para a modelagem, permitindo criar um sistema robusto, mas sem complexidades desnecessárias de grandes redes. As evidências (fotos do local, cardápio, perfil no Google Maps e Instagram) e o contato com o responsável (Rafael Novais - 11913433270) estão documentados no repositório.
+
+**Relato da entrevista e Observação Presencial**
+
+A entrevista foi realizada presencialmente no ambiente da lanchonete com o proprietário, Rafael Novais. Durante a visita, o grupo pôde contrastar o relato do dono com a realidade observada:
+*   **Relato vs. Observação:** O proprietário afirmou que "controla o estoque olhando as geladeiras". No entanto, a observação presencial revelou que não há nenhum tipo de planilha de contagem diária, e o estoque do depósito (interno) não é conferido antes de abrir o caixa.
+*   **O Levantamento Completo:** O documento detalhado com todas as perguntas, respostas e observações da visita está disponível no arquivo [levantamento/levantamento.md](./levantamento/levantamento.md).
 
 **Processos de negócio**
 
-1. **Vendas e Atendimento:** Pedidos no balcão, WhatsApp ou telefone; montagem de combos; escolha de acompanhamentos (até 3) e coberturas; aplicação de desconto UNICID; pagamento (débito, crédito, Pix, dinheiro); cancelamento de pedidos (antes da entrega).
-2. **Compras e Recebimento:** Identificação de estoque mínimo; pedido de reposição ao fornecedor; recebimento de mercadoria com conferência e entrada no estoque.
-3. **Apoio e Gestão de Estoque:** Contagem diária; registro de perdas de perecíveis; controle de validade; fechamento de caixa diário.
-- *Processos não incluídos:* Emissão de nota fiscal (a lanchonete não emite e não repassa ao cliente) e cadastro de clientes (não é prática da organização).
+O sistema foi modelado para abranger 100% dos processos da lanchonete:
+1.  **Fluxo de Vendas:** O cliente faz o pedido (presencial ou remoto). O atendente registra o pedido, aplica descontos (se houver), e o sistema envia os itens para a cozinha. Após a entrega, o pagamento é registrado e a Nota Fiscal é emitida.
+2.  **Fluxo de Compras:** Quando o estoque atinge o nível mínimo (monitorado pelo sistema), o gerente gera um Pedido de Compra para o Fornecedor. Ao receber a mercadoria, ele registra a entrada no estoque.
+3.  **Fluxo de Apoio (Estoque e Caixa):** Diariamente, a cozinha verifica a validade dos itens (registrando perdas, se houver) e o caixa consolida os pagamentos do dia (Fechamento de Caixa).
 
 **Requisitos do Sistema**
 
-- **Requisitos Funcionais (RF):**
-  - RF01 a RF16: Cadastro de fornecedores, produtos, movimentações, pedidos, prato do dia, combos, acompanhamentos, descontos.
-  - RF17: O sistema deve permitir registrar pedidos de compra/reposição de fornecedores.
-  - RF18: O sistema deve permitir registrar o recebimento de mercadorias e a entrada no estoque.
-  - RF19: O sistema deve permitir registrar perdas de perecíveis (descarte).
-  - RF20: O sistema deve permitir o cancelamento de pedidos com registro de justificativa.
-  - RF21: O sistema deve permitir gerar o relatório de fechamento de caixa diário agrupado por forma de pagamento.
-- **Requisitos Não Funcionais (RNF):**
-  - RNF01 a RNF08: Usabilidade, disponibilidade, desempenho, segurança, integridade, backup, compatibilidade, privacidade.
+*   **Requisitos Funcionais (RF):** O sistema deve permitir o cadastro completo de fornecedores, produtos (com controle de categoria, preço e unidade), funcionários e acompanhamentos. Deve registrar pedidos, calculando o total automaticamente, gerenciar a fila de preparo (status), registrar as múltiplas formas de pagamento, gerar o fechamento de caixa diário, emitir o registro de Nota Fiscal para fins legais, controlar a entrada e saída de estoque e emitir alertas de nível mínimo.
+*   **Requisitos Não Funcionais (RNF):** A interface deve ser de alta usabilidade (simples, para ser usada no balcão). O sistema deve ter disponibilidade total durante o horário de funcionamento (10h-22h), desempenho rápido para não gerar filas, e segurança por meio de perfis de acesso (Atendente, Cozinha, Gerente). Os dados devem passar por rotinas de backup diário.
 
 **Regras de Negócio**
 
-- **RN01:** Desconto de R$ 2,00 para funcionários da UNICID, mediante comprovação.
-- **RN02:** O prato do dia é sempre um item do cardápio e muda diariamente.
-- **RN03:** Formas de pagamento: Débito, Crédito, Pix e Dinheiro.
-- **RN04:** Fiado só com autorização do dono (status pendente).
-- **RN05:** Reposição antecipada quando o estoque atingir o mínimo.
-- **RN06:** Contagem diária de estoque.
-- **RN07:** Estoque de amostra (geladeira/vitrine) x Estoque interno (depósito).
-- **RN08:** Até 3 acompanhamentos por refeição; coberturas apenas para batatas e sanduíches.
-- **RN09:** Produtos perecíveis vencidos devem ser descartados e registrados como perda.
-- **RN10:** Pedidos só podem ser cancelados se o status for "Aberto" ou "Em preparo".
-- **RN11:** A lanchonete não emite nota fiscal; o comprovante é o cupom não fiscal.
+As regras foram mapeadas para garantir a integridade da operação:
+*   **RN01:** Desconto fixo de R$ 2,00 para funcionários da UNICID, exigindo comprovação de vínculo.
+*   **RN02:** O prato do dia deve ser um produto já cadastrado no sistema, com preço promocional que muda diariamente.
+*   **RN03:** Formas de pagamento aceitas: Débito, Crédito, Pix e Dinheiro.
+*   **RN04:** A venda fiada (pagamento pendente) só pode ser registrada mediante autorização explícita do gerente.
+*   **RN05:** O sistema deve sugerir a reposição (Pedido de Compra) quando o `QT_ESTOQUE` for menor ou igual ao `QT_ESTOQUE_MIN`.
+*   **RN06:** Refeições permitem no máximo 3 acompanhamentos. Coberturas são restritas a batatas e sanduíches.
+*   **RN07:** O estoque é dividido em "Amostra" (vitrine/geladeira) e "Interno" (depósito).
+*   **RN08:** Produtos perecíveis vencidos devem ser baixados do estoque como "Perda".
+*   **RN09:** Um pedido cancelado só pode ser alterado se o status não for "Entregue".
+*   **RN10:** Todo pedido finalizado gera um registro de Nota Fiscal (NFe) para conformidade legal, mesmo que o cliente não solicite a via impressa.
 
-**Notação do DER conceitual (Caso A)**
+**Notação do DER conceitual**
 
 O DER foi criado no software **brModelo Web**. [Link para o DER](./DER.png).
-
-*Tabela de Correções (Apontamentos da E1):*
-
-| Apontamento da correção da E1 | O que mudou no trabalho | Por quê |
-| :--- | :--- | :--- |
-| Identificadores não marcados (círculos vazios) | Todos os identificadores (chaves) foram preenchidos com círculo preto. | Para diferenciar atributos comuns de chaves primárias no modelo conceitual. |
-| Fornece (1,1) do lado de FORNECEDOR | Alterado para (0,1) do lado de FORNECEDOR. | Nem toda movimentação de estoque (ex: saída, ajuste, perda) tem um fornecedor associado. |
-| Registra (1,n) do lado de PEDIDO | Alterado para (0,n) do lado de PEDIDO. | Permite cadastrar um funcionário que ainda não registrou nenhum pedido. |
-| Atributo id_funcionario com "(0, n)" | A cardinalidade foi removida do atributo. | Atributos simples não possuem cardinalidade no brModelo. |
-| Divergências (Pagamento, Pedido, Fornecedor) | Atributos faltantes adicionados no DER (ex: forma pagamento, data, contato, email). | Para garantir que o DER reflita exatamente o Dicionário de Dados. |
-| Ausência de processo de Compras | Criada a entidade `PEDIDO_COMPRA` e `ITEM_COMPRA`. | Para cobrir o processo de reposição de estoque e resolver o P1. |
-| Ausência de fechamento e perdas | Criada entidade `FECHAMENTO_CAIXA` e adicionado tipo "Perda" em `ESTOQUE_MOVIMENTACAO`. | Para cobrir as regras RN09 e o problema P4. |
+*Correções aplicadas em relação à Entrega 1:* Inclusão das entidades de Compras (`PEDIDO_COMPRA`), Fechamento de Caixa (`FECHAMENTO_CAIXA`) e Nota Fiscal (`NOTA_FISCAL`). Correção das cardinalidades (ex: Fornecedor para `(0,1)` em movimentações) e marcação de todas as chaves primárias (identificadores).
 
 ### 1.2 Conversão do Modelo Conceitual para o Modelo Lógico
 
-- **Entidades → Tabelas:** Cada retângulo (ex: `PRODUTO`, `PEDIDO`) tornou-se uma tabela.
-- **Atributos → Colunas:** Os atributos simples tornaram-se colunas. O atributo multivalorado foi convertido em tabelas filhas (ex: itens).
-- **Relacionamentos → Chaves:** Relacionamentos 1:N foram convertidos pela migração da chave primária do lado 1 para o lado N como chave estrangeira (ex: `CD_FORNECEDOR` em `ESTOQUE_MOVIMENTACAO`). Relacionamentos N:N foram convertidos em tabelas associativas (ex: `ITEM_PEDIDO`, `COMBO_ITEM`).
-- **Cardinalidades:** As cardinalidades (0,1) foram implementadas permitindo `NULL` nas FKs (ex: `CD_FORNECEDOR` na movimentação). As cardinalidades (1,1) e (1,n) foram implementadas com `NOT NULL`.
-- **Generalização/Especialização:** O modelo não possui herança, portanto, todas as entidades são tabelas independentes.
+A conversão seguiu as regras formais da modelagem relacional:
+*   **Entidades → Tabelas:** Cada entidade do DER tornou-se uma tabela no modelo lógico.
+*   **Relacionamentos 1:N:** Foram resolvidos pela migração da Chave Primária (PK) da tabela "Pai" (lado 1) para a tabela "Filha" (lado N) na forma de Chave Estrangeira (FK). Exemplo: A PK `CD_FORNECEDOR` foi para a tabela `PEDIDO_COMPRA`.
+*   **Relacionamentos N:N:** Foram convertidos em tabelas associativas. Exemplo: O relacionamento entre `PEDIDO` e `PRODUTO` deu origem à tabela `ITEM_PEDIDO`, que contém as FKs de ambos e os atributos próprios da relação (quantidade, preço).
+*   **Atributos Multivalorados:** Foram isolados em tabelas próprias.
 
 ### 1.3 Definição de Chaves Primárias e Estrangeiras
 
-| Tabela | Chave Primária (PK) | Chaves Estrangeiras (FK) |
-| :--- | :--- | :--- |
-| FUNCIONARIO | CD_FUNCIONARIO | - |
-| FORNECEDOR | CD_FORNECEDOR | - |
-| PRODUTO | CD_PRODUTO | - |
-| ESTOQUE_MOVIMENTACAO | CD_MOVIMENTACAO | CD_PRODUTO; CD_FORNECEDOR (opcional) |
-| PEDIDO_COMPRA | CD_PEDIDO_COMPRA | CD_FORNECEDOR |
-| ITEM_COMPRA | CD_ITEM_COMPRA | CD_PEDIDO_COMPRA; CD_PRODUTO |
-| PEDIDO | CD_PEDIDO | CD_FUNCIONARIO |
-| ITEM_PEDIDO | CD_ITEM | CD_PEDIDO; CD_PRODUTO |
-| PAGAMENTO | CD_PAGAMENTO | CD_PEDIDO |
-| PRATO_DO_DIA | CD_PRATO_DIA | CD_PRODUTO |
-| COMBO_ITEM | CD_COMBO_ITEM | CD_PRODUTO_COMBO; CD_PRODUTO_ITEM |
-| ACOMPANHAMENTO | CD_ACOMPANHAMENTO | - |
-| ITEM_PEDIDO_ACOMP | CD_ITEM; CD_ACOMPANHAMENTO | CD_ITEM; CD_ACOMPANHAMENTO |
-| FECHAMENTO_CAIXA | CD_FECHAMENTO | - |
+*   **Chaves Primárias (PK):** Todas as tabelas utilizam chaves artificiais (surrogadas) no padrão `CD_` (Código), configuradas como `INT AUTO_INCREMENT`. Isso garante que o identificador nunca mude, mesmo que o nome de um produto ou o CNPJ de um fornecedor seja atualizado.
+*   **Chaves Estrangeiras (FK):** Garantem a integridade referencial. Por exemplo, não é possível registrar um pagamento (`PAGAMENTO`) para um pedido (`CD_PEDIDO`) que não existe. A tabela `NOTA_FISCAL` também possui uma FK apontando para `PEDIDO`, garantindo que uma nota não fique órfã.
 
 ### 1.4 Processo de Normalização (1FN, 2FN e 3FN)
 
-- **1FN (Atomicidade):** Eliminamos grupos repetitivos ao criar as tabelas `ITEM_PEDIDO` e `ITEM_COMPRA`. Um pedido não armazena os produtos em uma única coluna de texto, mas sim em linhas separadas na tabela filha.
-- **2FN (Dependência Parcial):** Na tabela `ITEM_PEDIDO`, os atributos `QT_ITEM` e `VL_UNITARIO` dependem exclusivamente da chave primária `CD_ITEM` (que é composta na origem, mas gerada como ID único). Se a PK fosse composta por `CD_PEDIDO` + `CD_PRODUTO`, o preço dependeria do produto, não do pedido, gerando dependência parcial. A criação do `CD_ITEM` resolve isso.
-- **3FN (Dependência Transitiva):** Não há atributos não-chave dependendo de outros atributos não-chave. Por exemplo, o nome do fornecedor não é guardado na tabela `ESTOQUE_MOVIMENTACAO`, apenas o seu ID. A tabela `PAGAMENTO` foi separada de `PEDIDO` para evitar dependências transitivas.
+O banco foi estruturado para evitar redundâncias e anomalias de atualização:
+*   **1ª Forma Normal (1FN):** Todos os atributos são atômicos. Não existem campos que guardam listas (ex: em vez de ter uma coluna "Produtos" no Pedido, cada produto é uma linha na tabela `ITEM_PEDIDO`).
+*   **2ª Forma Normal (2FN):** Na tabela `ITEM_PEDIDO`, os atributos `VL_UNITARIO` e `QT_ITEM` dependem da chave primária completa da linha (`CD_ITEM`), e não apenas de uma parte dela.
+*   **3ª Forma Normal (3FN):** Não há dependências transitivas. Por exemplo, o nome do fornecedor não é guardado na tabela de estoque, apenas a sua FK (`CD_FORNECEDOR`). Se o nome mudar, altera-se apenas na tabela `FORNECEDOR`, mantendo o banco consistente.
 
 ### 1.5 Justificativas Técnicas das Decisões
 
-- **Chaves Primárias:** Optou-se por chaves artificiais (surrogadas) no padrão `CD_` (ex: `CD_PEDIDO` do tipo `INT AUTO_INCREMENT`) para garantir estabilidade. Dados naturais (como CNPJ ou Telefone) podem mudar ou conter erros de digitação.
-- **Chaves Estrangeiras:** Implementam os relacionamentos e garantem a integridade referencial. A `FK` em `ESTOQUE_MOVIMENTACAO` para `FORNECEDOR` é opcional (`NULL`) porque atende à regra de negócio de que saídas e ajustes (RN09) não possuem fornecedor.
-- **Restrições (Constraints):**
-  - `UNIQUE` em `NR_CNPJ` (FORNECEDOR) para evitar duplicidade.
-  - `CHECK (QT_ESTOQUE >= 0)` em `PRODUTO` para garantir integridade física do estoque.
-  - `CHECK (TP_MOVIMENTACAO IN ('Entrada', 'Saída', 'Ajuste', 'Perda'))` para garantir a RN09.
-  - `DEFAULT CURRENT_TIMESTAMP` em `DT_PEDIDO` para registrar o momento exato automaticamente.
-- **Decisões Arquiteturais:** A entidade `CLIENTE` foi intencionalmente omitida, conforme levantamento. A entidade `PEDIDO_COMPRA` foi adicionada para cobrir o processo de reposição de estoque (P1).
+*   **Ausência da tabela CLIENTE:** Conforme o levantamento, a MAXfood não realiza cadastro de clientes. Criar essa tabela forçaria o atendente a fazer um cadastro a cada venda, o que quebraria a agilidade do balcão. Os dados do cliente (nome e telefone) para entregas são tratados como atributos opcionais em `PEDIDO`.
+*   **Inclusão da tabela NOTA_FISCAL:** Apesar da lanchonete não emitir nota fiscal no dia a dia, a estrutura foi preparada para a conformidade legal. A tabela permite registrar a chave de acesso (NFe) e o status do documento.
+*   **Separação de PAGAMENTO e PEDIDO:** Um pedido pode ser pago de formas mistas (ex: R$ 10 em dinheiro e R$ 15 no Pix). A tabela separada permite registrar múltiplos pagamentos vinculados ao mesmo pedido.
+*   **Uso de ENUM:** Para campos de domínio fixo (ex: `TP_CANAL` com 'Balcão', 'WhatsApp', 'Telefone'), o uso de ENUM garante a integridade dos dados e impede erros de digitação que quebrariam as consultas.
 
 ### 1.6 Proposta de Arquitetura Analítica para BI e IA
 
-**Indicadores e KPIs:**
-- **KPI01 (Ticket Médio):** Média do valor gasto por cliente.
-- **KPI02 (Ruptura de Estoque):** Quantidade de produtos abaixo do estoque mínimo.
-- **KPI03 (Faturamento por Canal):** Comparar balcão vs WhatsApp.
-- **KPI04 (Taxa de Perdas):** Valor financeiro descartado por validade.
-- **KPI05 (Mix de Pagamento):** Percentual de uso de Pix vs Cartão.
-
-**Aplicações Analíticas e de IA:**
-- **Previsão de Demanda:** Utilizar o histórico de `ITEM_PEDIDO` e `DT_PEDIDO` para prever quais lanches venderão mais em dias de semana (para evitar P3).
-- **Alerta Preditivo de Estoque:** IA que avisa com 2 dias de antecedência sobre a necessidade de pedido de reposição.
+*   **Indicadores (KPIs):**
+    *   **Ticket Médio (KPI01):** Ajuda a entender o poder de compra do cliente da UNICID.
+    *   **Ruptura de Estoque (KPI02):** Alerta sobre produtos que estão zerando.
+    *   **Taxa de Perdas (KPI04):** Percentual do faturamento perdido com validade vencida.
+*   **Aplicações de IA:** Com o histórico de `PEDIDO` e `ITEM_PEDIDO`, um modelo de machine learning pode prever a demanda de lanches em dias de semana (considerando o calendário acadêmico da UNICID), otimizando a compra de insumos e evitando o P3 (perdas).
 
 **Rastreabilidade:**
 
@@ -158,26 +127,26 @@ O DER foi criado no software **brModelo Web**. [Link para o DER](./DER.png).
 ## 2. Modelo Lógico Relacional
 
 O modelo lógico foi criado no **MySQL Workbench** e pode ser visualizado na imagem abaixo:
-[Clique aqui para abrir o Modelo Lógico](./Modelo_logico.png)
+[Clique aqui para abrir o Modelo Lógico](./Modelo_Logico.png)
 
-Ele representa as tabelas, colunas com seus respectivos tipos de dados, Chaves Primárias (PK) e Chaves Estrangeiras (FK).
+Ele representa as tabelas, colunas com seus respectivos tipos de dados, Chaves Primárias (PK) e Chaves Estrangeiras (FK), demonstrando a correta conversão das regras de negócio para a estrutura relacional.
 
 ## 3. Script SQL Completo
 
 O script SQL foi implementado em **MySQL** e está disponível no repositório no arquivo: [docs/Script.sql](./docs/Script.sql).
-Ele contém desde a criação do banco de dados, tabelas, constraints, carga de dados (massa), comandos DML (Update/Delete), consultas gerenciais (G01 a G05) e consultas de auditoria (A01 a A03).
+Ele contém desde a criação do banco de dados (DDL), tabelas com constraints (PK, FK, CHECK, UNIQUE), carga de dados (massa fictícia variada), comandos DML (Update/Delete), consultas gerenciais (G01 a G06) e consultas de auditoria (A01 a A04).
 
 ## 4. Massa de Dados
 
-A massa de dados fictícia está incluída diretamente no script SQL (`docs/Script.sql`). Foram gerados dados variados para testar todos os cenários da lanchonete (produtos abaixo do estoque mínimo, perdas, pedidos cancelados, pagamentos pendentes, etc.), garantindo que as consultas gerenciais retornem resultados reais.
+A massa de dados fictícia está incluída diretamente no script SQL (`docs/Script.sql`). O volume e a variedade foram baseados nos números reais da organização (estimativa de 1.500 pedidos/mês). Foram gerados dados que simulam cenários reais e críticos: pedidos cancelados, clientes com pagamentos pendentes (fiado), produtos perecíveis vencidos, produtos abaixo do estoque mínimo e emissão de notas fiscais (emitidas e canceladas), garantindo que as consultas gerenciais retornem dados reais.
 
 ## 5. Repositório GitHub
 
 O repositório está organizado da seguinte forma:
 - `README.md` (Relatório Técnico)
-- [Dicionario.html](./Dicionario.html) (Dicionário de Dados atualizado)
+- [Dicionario.html](./Dicionario.html) (Dicionário de Dados atualizado com LGPD e Relacionamentos)
 - [DER.png](./DER.png) (Modelo Conceitual revisado)
-- [Modelo_Logico.png](./Modelo_logico.png) (Modelo Lógico)
+- [Modelo_Logico.png](./Modelo_Logico.png) (Modelo Lógico)
 - `levantamento/` (Pasta com o arquivo de levantamento e fotos)
 - `docs/` (Pasta contendo o [Script.sql](./docs/Script.sql))
 
@@ -185,26 +154,26 @@ O repositório está organizado da seguinte forma:
 
 ## 6. Uso de Inteligência Artificial
 
+O grupo utilizou ferramentas de IA como apoio técnico para garantir a qualidade, padronização e o nível de detalhamento exigido nesta etapa. Abaixo, o registro transparente de como a ferramenta foi empregada:
+
 | Item | O que registrar |
 | :--- | :--- |
-| **Ferramenta e etapa** | **DeepSeek**. Utilizada na etapa de (1) reestruturação do README para a Entrega 2 e (2) revisão dos processos de negócio e cobertura de regras conforme apontamentos da Entrega 1. |
-| **Motivação** | O grupo precisava adequar o modelo conceitual à luz dos feedbacks do professor (inserir processos de compras, corrigir cardinalidades no DER e adicionar regras de perdas/cancelamento) de forma ágil e estruturada. |
-| **Prompt(s) utilizados** | 1) "Deepseek, preciso fazer a segunda entrega de uma atividade... A primeira entrega já foi feita e esse foi a explicação do passo a passo... Esse é um texto do professor corrigindo a entrega 1 falando o que tem que ser feito... Me ajude a fazer com essa explicação." |
-| **Resposta recebida** | A IA sugeriu a inclusão das entidades `PEDIDO_COMPRA` e `FECHAMENTO_CAIXA`, a alteração do tipo de movimentação para incluir 'Perda', a correção da cardinalidade de `FORNECEDOR` para (0,1) e gerou a estrutura completa deste README. |
-| **Fontes consultadas e verificadas** | As sugestões foram confrontadas com o DER original, o Dicionário de Dados HTML e as anotações de campo. A validação do fluxo de compras foi feita mentalmente simulando a rotina da lanchonete. |
-| **Trechos rejeitados ou corrigidos** | A IA sugeriu criar uma entidade `CLIENTE` para resolver o problema do fiado, mas isso foi rejeitado pois contraria a entrevista (a MAXfood não cadastra clientes). A IA também sugeriu colocar a data de validade como atributo do produto, mas alteramos para que a data de validade seja registrada na entrada do lote (`ESTOQUE_MOVIMENTACAO`) para ser mais realista. |
-| **Justificativa da escolha final** | O texto foi mantido e ajustado pois atende perfeitamente aos critérios do professor: cobre 100% dos processos prováveis, resolve os problemas declarados e detalha as consultas gerenciais para BI. |
-| **Reflexão crítica** | A IA foi excelente para organizar o caos pós-correção, mas ainda tende a propor soluções "empresariais" genéricas (como cadastro de clientes e nota fiscal) que não se aplicam ao micro-negócio. O grupo precisou filtrar e manter o escopo fiel ao porte da MAXfood. |
+| **Ferramenta e etapa** | **DeepSeek**. Utilizada nas etapas de estruturação e revisão textual do README, modelagem de dados e escrita/validação de scripts SQL. |
+| **Motivação** | A IA foi utilizada para agilizar a redação técnica do relatório (garantindo a clareza e o detalhamento solicitados) e como "segunda opinião" para validar a sintaxe das consultas SQL e a integridade do modelo lógico. |
+| **Prompt(s) utilizados** | Foram solicitados à IA: a revisão estrutural do README com base nas exigências da Entrega 2; a expansão dos textos explicativos sobre processos e regras de negócio; a inclusão da estrutura de Nota Fiscal (exigida na correção); e a geração do script SQL e do dicionário HTML. |
+| **Resposta recebida** | A IA retornou os textos do README expandidos e devidamente justificados, o script SQL (incluindo `CREATE TABLE`, `INSERT` e consultas de auditoria/gerenciais) e o código HTML do dicionário. |
+| **Fontes consultadas e verificadas** | Todas as sugestões foram confrontadas com as anotações da entrevista de campo e com o teste prático no MySQL Workbench. |
+| **Trechos rejeitados ou corrigidos** | A IA sugeriu a criação da entidade `CLIENTE`, que foi rejeitada (a lanchonete não realiza cadastro). Houve também um erro de sintaxe gerado na consulta `G03` (falha no `GROUP BY`), que foi corrigido após testes no banco real. Por fim, a estrutura de emissão de Nota Fiscal foi inserida após apontamento do professor. |
+| **Justificativa da escolha final** | A IA foi mantida como ferramenta de apoio pois ajudou a elevar o nível de detalhamento da documentação, mas todas as decisões de negócio e o código final foram validados e testados pela equipe. |
+| **Reflexão crítica** | O uso da IA demonstrou que, embora ela seja excelente para gerar estruturas iniciais e organizar textos, ela tende a generalizar regras de negócio (como presumir que todo comércio emite nota fiscal ou cadastra clientes). O grupo percebeu que a pesquisa de campo e a validação humana são insubstituíveis. |
 
 ---
 
 ## 7. Apresentação Corporativa Final
 
-O pitch de 8 minutos será apresentado no dia da entrega, seguindo a ordem exigida:
-1. Contextualização do problema (P1 a P4)
-2. Solução proposta (O sistema MAXfood)
-3. Modelo Lógico
-4. Demonstração da implementação (SQL rodando ao vivo)
-5. Consultas gerenciais e de auditoria
-6. Potencial BI/IA
-7. Benefícios para a tomada de decisão.
+A apresentação (pitch de 8 minutos) será realizada presencialmente, seguindo a ordem exigida:
+1. Contextualização da crise operacional da MAXfood (P1 a P4).
+2. Apresentação da solução e do Modelo Lógico.
+3. Demonstração do banco de dados rodando no MySQL Workbench (Consultas G01, G02 e Auditoria A01).
+4. Potencial de BI e IA para prever demanda e evitar perdas.
+5. Benefícios diretos para a tomada de decisão do proprietário.
